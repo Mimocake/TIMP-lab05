@@ -1,0 +1,16 @@
+name: linux
+on: push
+jobs:
+  build_and_run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repo files
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+      - name: Configure build directory
+        run: cmake -H. -B build -D BUILD_TESTS=ON
+      - name: Build project
+        run: cmake --build build
+      - name: Run tests
+        run: cmake --build build --target test -- ARGS=--verbose
